@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+<hibernate-mapping>
+    <class name="com.exadel.user.base.User" table="users" catalog="users">
+        <id name="userID" type="java.lang.Integer">
+            <column name="userID" />
+            <generator class="identity" />
+        </id>
+        <property name="firstName" type="java.lang.String">
+            <column name="firstName" length="50" not-null="true" unique="true" />
+        </property>
+        <property name="lastName" type="java.lang.String">
+            <column name="lastName" length="50" not-null="true" unique="true" />
+        </property>
+		<property name="email" type="java.lang.String">
+            <column name="email" length="20" not-null="true" unique="true" />
+        </property>
+    </class>
+</hibernate-mapping>

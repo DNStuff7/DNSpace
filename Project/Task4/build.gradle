@@ -1,0 +1,46 @@
+apply plugin: 'java'
+apply plugin: 'jetty'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+	compile 'org.springframework:spring-webmvc:3.2.2.RELEASE'
+    compile 'org.springframework:spring-core:3.2.2.RELEASE'
+    //compile 'org.springframework:spring-web:3.2.2.RELEASE'
+	
+	compile 'org.projectlombok:lombok:1.14.8'
+	compile 'junit:junit:3.8.1'
+	compile 'mysql:mysql-connector-java:5.1.30'
+	compile 'org.hibernate:hibernate-core:3.6.3.Final'
+	compile 'dom4j:dom4j:1.6.1'
+	compile 'commons-logging:commons-logging:1.1.1'
+	compile 'commons-collections:commons-collections:3.2.1'
+	compile 'cglib:cglib:2.2'
+	compile 'org.slf4j:slf4j-api:1.6.1'
+	compile 'org.slf4j:slf4j-log4j12:1.6.1'
+	compile 'javassist:javassist:3.12.1.GA'
+	
+	providedCompile 'javax.servlet:servlet-api:2.5'
+    providedCompile 'javax.servlet.jsp:jsp-api:2.1'
+	runtime 'javax.servlet:jstl:1.1.2'
+}
+test {
+    exclude '**/*IntegrationTest*'
+}
+
+task integrationTest(type: Test) {
+    include '**/*IntegrationTest*'
+    doFirst {
+        jettyRun.contextPath = '/';
+        jettyRun.httpPort = 8080    // Port for test
+        jettyRun.daemon = true
+        jettyRun.execute()
+    }
+    doLast {
+        jettyStop.stopPort = 8091   // Port for stop signal
+        jettyStop.stopKey = 'stopKey'
+        jettyStop.execute()
+    }
+}
